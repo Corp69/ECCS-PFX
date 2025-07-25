@@ -28,8 +28,25 @@ public class LoadingComponent extends StackPane {
         card.setPrefWidth(450);
         card.setPrefHeight(300);
         
+        // Logo o texto ECCS
+        VBox logoContainer = new VBox(10);
+        logoContainer.setAlignment(Pos.CENTER);
+        
+        try {
+            javafx.scene.image.ImageView logoView = new javafx.scene.image.ImageView();
+            javafx.scene.image.Image logoImage = new javafx.scene.image.Image(getClass().getResourceAsStream("/logo.png"));
+            logoView.setImage(logoImage);
+            logoView.setFitWidth(80);
+            logoView.setFitHeight(80);
+            logoView.setPreserveRatio(true);
+            logoContainer.getChildren().add(logoView);
+        } catch (Exception e) {
+            System.out.println("[DEBUG] Logo no encontrado, usando texto: " + e.getMessage());
+        }
+        
         Label companyLabel = new Label("ECCS");
-        companyLabel.setStyle("-fx-font-size: 48px; -fx-font-weight: bold; -fx-text-fill: #4169E1; -fx-effect: dropshadow(gaussian, rgba(65,105,225,0.5), 8, 0, 2, 2);");
+        companyLabel.setStyle("-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #4169E1;");
+        logoContainer.getChildren().add(companyLabel);
         
         progressBar = new ProgressBar(0);
         progressBar.setPrefWidth(350);
@@ -39,7 +56,7 @@ public class LoadingComponent extends StackPane {
         messageLabel = new Label("ECCS: Inicializando sistema...");
         messageLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: #666666; -fx-font-weight: 400;");
         
-        card.getChildren().addAll(companyLabel, progressBar, messageLabel);
+        card.getChildren().addAll(logoContainer, progressBar, messageLabel);
         getChildren().add(card);
     }
 

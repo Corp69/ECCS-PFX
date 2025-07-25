@@ -22,78 +22,115 @@ public class LoginComponent extends VBox {
     }
 
     private void initializeComponents() {
-        // Título minimalista
-        Label titleLabel = new Label("ECCS");
-        titleLabel.setStyle("-fx-font-size: 32px; -fx-font-weight: 300; -fx-text-fill: #1A202C; -fx-letter-spacing: 2px;");
+        // Header con logo
+        VBox headerSection = new VBox(15);
+        headerSection.setAlignment(Pos.CENTER);
         
-        Label subtitleLabel = new Label("Acceso al sistema");
+        // Logo
+        try {
+            javafx.scene.image.ImageView logoView = new javafx.scene.image.ImageView();
+            javafx.scene.image.Image logoImage = new javafx.scene.image.Image(getClass().getResourceAsStream("/logo.png"));
+            logoView.setImage(logoImage);
+            logoView.setFitWidth(80);
+            logoView.setFitHeight(80);
+            logoView.setPreserveRatio(true);
+            headerSection.getChildren().add(logoView);
+        } catch (Exception e) {
+            System.out.println("[DEBUG] Logo no encontrado en login: " + e.getMessage());
+        }
+        
+        Label titleLabel = new Label("ECCS");
+        titleLabel.setStyle("-fx-font-size: 28px; -fx-font-weight: 400; -fx-text-fill: #1A202C; -fx-letter-spacing: 2px;");
+        
+        Label subtitleLabel = new Label("Sistema de Certificados");
         subtitleLabel.setStyle("-fx-font-size: 13px; -fx-text-fill: #718096; -fx-font-weight: 400;");
         
-        // Campo usuario con icono
-        HBox userContainer = new HBox();
+        headerSection.getChildren().addAll(titleLabel, subtitleLabel);
+        
+        // Sección de campos
+        VBox fieldsSection = new VBox(20);
+        fieldsSection.setAlignment(Pos.CENTER);
+        
+        // Campo usuario
+        VBox userSection = new VBox(8);
+        userSection.setAlignment(Pos.CENTER_LEFT);
+        
+        Label userLabel = new Label("Usuario");
+        userLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #4A5568; -fx-font-weight: 500;");
+        
+        HBox userContainer = new HBox(12);
         userContainer.setAlignment(Pos.CENTER_LEFT);
-        userContainer.setSpacing(12);
-        userContainer.setPrefWidth(280);
-        userContainer.setStyle("-fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0; -fx-padding: 8 0 8 0;");
+        userContainer.setPrefWidth(300);
+        userContainer.setPrefHeight(45);
+        userContainer.setStyle("-fx-background-color: #F7FAFC; -fx-border-color: #E2E8F0; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 15;");
         
         Text userIcon = new Text("👤");
         userIcon.setStyle("-fx-font-size: 16px;");
         
         usernameField = new TextField();
-        usernameField.setPromptText("Usuario");
-        usernameField.setPrefWidth(240);
-        usernameField.setPrefHeight(32);
-        usernameField.setStyle("-fx-font-size: 15px; -fx-background-color: transparent; -fx-text-fill: #2D3748; -fx-prompt-text-fill: #A0AEC0; -fx-border-width: 0;");
+        usernameField.setPromptText("Ingrese su usuario");
+        usernameField.setPrefWidth(250);
+        usernameField.setStyle("-fx-font-size: 14px; -fx-background-color: transparent; -fx-text-fill: #2D3748; -fx-prompt-text-fill: #A0AEC0; -fx-border-width: 0;");
         
         userContainer.getChildren().addAll(userIcon, usernameField);
+        userSection.getChildren().addAll(userLabel, userContainer);
         
-        Tooltip userTooltip = new Tooltip("Ingrese su nombre de usuario corporativo\n(Máximo 10 caracteres alfanuméricos)");
-        userTooltip.setStyle("-fx-background-color: #2D3748; -fx-text-fill: white; -fx-font-size: 11px; -fx-background-radius: 6;");
-        Tooltip.install(userContainer, userTooltip);
+        // Campo contraseña
+        VBox passSection = new VBox(8);
+        passSection.setAlignment(Pos.CENTER_LEFT);
         
-        // Campo contraseña con icono
-        HBox passContainer = new HBox();
+        Label passLabel = new Label("Contraseña");
+        passLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: #4A5568; -fx-font-weight: 500;");
+        
+        HBox passContainer = new HBox(12);
         passContainer.setAlignment(Pos.CENTER_LEFT);
-        passContainer.setSpacing(12);
-        passContainer.setPrefWidth(280);
-        passContainer.setStyle("-fx-border-color: #E2E8F0; -fx-border-width: 0 0 1 0; -fx-padding: 8 0 8 0;");
+        passContainer.setPrefWidth(300);
+        passContainer.setPrefHeight(45);
+        passContainer.setStyle("-fx-background-color: #F7FAFC; -fx-border-color: #E2E8F0; -fx-border-width: 1; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 0 15;");
         
         Text passIcon = new Text("🔒");
         passIcon.setStyle("-fx-font-size: 16px;");
         
         passwordField = new PasswordField();
-        passwordField.setPromptText("Contraseña");
-        passwordField.setPrefWidth(240);
-        passwordField.setPrefHeight(32);
-        passwordField.setStyle("-fx-font-size: 15px; -fx-background-color: transparent; -fx-text-fill: #2D3748; -fx-prompt-text-fill: #A0AEC0; -fx-border-width: 0;");
+        passwordField.setPromptText("Ingrese su contraseña");
+        passwordField.setPrefWidth(250);
+        passwordField.setStyle("-fx-font-size: 14px; -fx-background-color: transparent; -fx-text-fill: #2D3748; -fx-prompt-text-fill: #A0AEC0; -fx-border-width: 0;");
         
         passContainer.getChildren().addAll(passIcon, passwordField);
+        passSection.getChildren().addAll(passLabel, passContainer);
         
-        Tooltip passTooltip = new Tooltip("Ingrese su contraseña de acceso\n(Máximo 10 caracteres alfanuméricos)");
-        passTooltip.setStyle("-fx-background-color: #2D3748; -fx-text-fill: white; -fx-font-size: 11px; -fx-background-radius: 6;");
-        Tooltip.install(passContainer, passTooltip);
+        fieldsSection.getChildren().addAll(userSection, passSection);
         
-        // Botón con icono
-        loginButton = new Button("→ Ingresar");
-        loginButton.setPrefWidth(280);
-        loginButton.setPrefHeight(48);
-        loginButton.setStyle("-fx-background-color: #2D3748; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 500; -fx-background-radius: 24; -fx-cursor: hand; -fx-border-width: 0;");
+        // Botón de login
+        loginButton = new Button("Iniciar Sesión");
+        loginButton.setPrefWidth(300);
+        loginButton.setPrefHeight(50);
+        loginButton.setStyle("-fx-background-color: #2B6CB0; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand; -fx-border-width: 0;");
+        
+        // Efectos hover
+        loginButton.setOnMouseEntered(e -> {
+            loginButton.setStyle("-fx-background-color: #2C5282; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand; -fx-border-width: 0;");
+        });
+        
+        loginButton.setOnMouseExited(e -> {
+            loginButton.setStyle("-fx-background-color: #2B6CB0; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand; -fx-border-width: 0;");
+        });
         
         errorLabel = new Label();
         errorLabel.setTextFill(Color.web("#E53E3E"));
         errorLabel.setVisible(false);
-        errorLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: 400;");
+        errorLabel.setStyle("-fx-font-size: 12px; -fx-font-weight: 500; -fx-text-alignment: center;");
         
-        getChildren().addAll(titleLabel, subtitleLabel, userContainer, passContainer, loginButton, errorLabel);
+        getChildren().addAll(headerSection, fieldsSection, loginButton, errorLabel);
     }
 
     private void setupLayout() {
         setAlignment(Pos.CENTER);
-        setSpacing(32);
-        setPadding(new Insets(48));
-        setStyle("-fx-background-color: #FFFFFF; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 24, 0, 0, 8);");
-        setMaxWidth(380);
-        setPrefHeight(420);
+        setSpacing(30);
+        setPadding(new Insets(40));
+        setStyle("-fx-background-color: #FFFFFF; -fx-background-radius: 16; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 25, 0, 0, 10);");
+        setMaxWidth(400);
+        setPrefHeight(500);
     }
 
     private void setupEventHandlers() {

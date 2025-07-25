@@ -36,6 +36,21 @@ public class ScorpioXLDashboard extends BorderPane {
         clockLabel = new Label();
         clockLabel.setStyle("-fx-font-size: 120px; -fx-font-weight: bold; -fx-text-fill: rgba(13, 79, 60, 0.1); -fx-font-family: 'Arial';");
         
+        // Logo de fondo
+        try {
+            javafx.scene.image.ImageView logoBackground = new javafx.scene.image.ImageView();
+            javafx.scene.image.Image logoImage = new javafx.scene.image.Image(getClass().getResourceAsStream("/logo.png"));
+            logoBackground.setImage(logoImage);
+            logoBackground.setFitWidth(300);
+            logoBackground.setFitHeight(300);
+            logoBackground.setOpacity(0.05);
+            logoBackground.setPreserveRatio(true);
+            mainContent.getChildren().add(logoBackground);
+            StackPane.setAlignment(logoBackground, Pos.CENTER);
+        } catch (Exception e) {
+            System.out.println("[DEBUG] Logo no encontrado: " + e.getMessage());
+        }
+        
         VBox content = new VBox(30);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(40));

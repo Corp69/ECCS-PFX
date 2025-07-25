@@ -21,6 +21,15 @@ public class AuthModule {
         this.scene = new Scene(root, 800, 600);
         stage.setScene(scene);
         stage.setTitle("ECCS");
+        
+        // Configurar icono de la ventana
+        try {
+            javafx.scene.image.Image icon = new javafx.scene.image.Image(getClass().getResourceAsStream("/icon.ico"));
+            stage.getIcons().add(icon);
+        } catch (Exception e) {
+            System.out.println("[DEBUG] Icono no encontrado: " + e.getMessage());
+        }
+        
         showLoadingScreen();
     }
 
